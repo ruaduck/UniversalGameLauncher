@@ -16,7 +16,7 @@ namespace UniversalGameLauncher {
 
         private DownloadProgressTracker _downloadProgressTracker;
         private WebClient _webClient;
-
+        private List<CSV.HashFiles> localHashFiles = new List<CSV.HashFiles>();
         public Version LocalVersion { get { return new Version(Properties.Settings.Default.VersionText); } }
         public Version OnlineVersion { get; private set; }
 
@@ -147,20 +147,50 @@ namespace UniversalGameLauncher {
         }
 
         private void OnClickPlay(object sender, EventArgs e) {
+            DownloadCSV();
+            CSV.LoadCSV();
+            DirectoryInfo d = new DirectoryInfo(Constants.DESTINATION_PATH);
+
+            FileInfo[] Files = d.GetFiles();
+            foreach (FileInfo file in Files)
+            {
+                CSV.HashFiles hash;
+
+                hash.filename = $"{file.Name}{file.Extension}";
+                hash.sha256 = Hashing.GetSHA256(file.FullName);
+                localHashFiles.Add(hash);
+            }
+            for (int i = 0; i < CSV.hashFiles.Count; i++)
+            {
+                CSV.HashFiles hash = CSV.hashFiles[i];
+                if (!localHashFiles.Contains(hash))
+                {
+                    DownloadFile($"https://uovnv.com/serverfiles/{hash.filename}", Path.Combine(Constants.DESTINATION_PATH, hash.filename));
+                }
+                    
+            }
             if (IsReady) {
                 LaunchGame();
-            } else {
+            } 
+            else {
                 DownloadFile();
             }
         }
 
-        private void DownloadFile() {
+        private void DownloadFile(string filename, string filelocation) {
             using (_webClient = new WebClient()) { 
                 _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
                 _webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadCompleted);
                 _webClient.DownloadFileAsync(new Uri(Constants.CLIENT_DOWNLOAD_URL), Constants.ZIP_PATH);
             }
             
+        }
+        private void DownloadCSV()
+        {
+            using (_webClient = new WebClient())
+            {
+                _webClient.DownloadFileAsync(new Uri(Constants.DOWNLOAD_CSV_PATH),Constants.GAME_CSV_PATH);
+            }
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
@@ -272,7 +302,7 @@ namespace UniversalGameLauncher {
         }
         
         private void SetUpButtonEvents() {
-            Button[] buttons = { navbarButton1, navbarButton2, navbarButton3, navbarButton4, navbarButton5 };
+            Button[] buttons = { navbarButton1, navbarButton2, navbarButton3};
 
             for(int i = 0; i < buttons.Length; i++) {
                 buttons[i].Click += new EventHandler(OnClickButton);

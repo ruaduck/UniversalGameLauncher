@@ -26,3 +26,17 @@ C:\Users\teemu\OneDrive\Tiedostot\Visual Studio 2017\Projects\UniversalGameLaunc
 C:\Users\teemu\OneDrive\Tiedostot\Visual Studio 2017\Projects\UniversalGameLauncher\GameLauncherRepository\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.csproj.CopyComplete
 C:\Users\teemu\OneDrive\Tiedostot\Visual Studio 2017\Projects\UniversalGameLauncher\GameLauncherRepository\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.exe
 C:\Users\teemu\OneDrive\Tiedostot\Visual Studio 2017\Projects\UniversalGameLauncher\GameLauncherRepository\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.pdb
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\UniversalGameLauncher.exe.config
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\UniversalGameLauncher.exe
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\UniversalGameLauncher.pdb
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\ICSharpCode.SharpZipLib.dll
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\ICSharpCode.SharpZipLib.pdb
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\ICSharpCode.SharpZipLib.xml
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.csproj.AssemblyReference.cache
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.Application.resources
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.Properties.Resources.resources
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.csproj.GenerateResource.cache
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.csproj.CoreCompileInputs.cache
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.csproj.CopyComplete
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.exe
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.pdb
