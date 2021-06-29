@@ -20,8 +20,8 @@ namespace UniversalGameLauncher {
         public static readonly string DESTINATION_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), GAME_TITLE);
         public static readonly string ZIP_PATH = Path.Combine(DESTINATION_PATH, GAME_TITLE + ".zip");
         public static readonly string GAME_EXECUTABLE_PATH = Path.Combine(DESTINATION_PATH,"client.exe");
-        public static readonly string GAME_CSV_PATH = Path.Combine(DESTINATION_PATH, "UOVnV.csv");
-        public static readonly string DOWNLOAD_CSV_PATH = "https://uovnv.com/serverfiles/UOVnV.csv";
+        public static readonly string GAME_CSV_PATH = Path.Combine(DESTINATION_PATH,"UOVnV.csv");
+        public static readonly string DOWNLOAD_CSV_PATH = "https://uovnv.com/serverfiles/UO%20VnV/UOVnV.csv";
 
         public static readonly string VERSION_URL = "https://uovnv.com/serverfiles/version.txt";
         public static readonly string APPLICATION_ICON_URL = "https://uovnv.com/favicon.ico"; // Needs to be .ico

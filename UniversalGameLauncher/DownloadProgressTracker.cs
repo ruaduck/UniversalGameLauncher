@@ -83,16 +83,28 @@ namespace UniversalGameLauncher {
         private double GetRateInternal() {
             if (_changes.Count == 0)
                 return 0;
+            try
+            {
+                TimeSpan timespan = _changes.Last().Item1 - _changes.First().Item1;
+                long bytes = _changes.Sum(t =>
+                {
+                    if (t is null)
+                    {
+                        throw new ArgumentNullException(nameof(t));
+                    }
 
-            TimeSpan timespan = _changes.Last().Item1 - _changes.First().Item1;
-            long bytes = _changes.Sum(t => t.Item2);
+                    return t.Item2;
+                });
 
-            double rate = bytes / timespan.TotalSeconds;
+                double rate = bytes / timespan.TotalSeconds;
 
-            if (double.IsInfinity(rate) || double.IsNaN(rate))
-                return 0;
+                if (double.IsInfinity(rate) || double.IsNaN(rate))
+                    return 0;
+                return rate;
+            }
+            catch { return 0; }         
 
-            return rate;
+            
         }
     }
 }

@@ -7,13 +7,15 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Windows.Forms;
+using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace UniversalGameLauncher {
     public partial class Application : Form {
-
+        private string _filename;
+        private bool downloaded = false;
         private DownloadProgressTracker _downloadProgressTracker;
         private WebClient _webClient;
         private List<CSV.HashFiles> localHashFiles = new List<CSV.HashFiles>();
@@ -34,8 +36,9 @@ namespace UniversalGameLauncher {
             }
         }
 
-        public bool UpToDate { get { return LocalVersion >= OnlineVersion; } }
-
+        //public bool UpToDate { get { return LocalVersion >= OnlineVersion; } }
+        public void backgroundWorker1_DoWork()
+        { }
         public Application() {
             InitializeComponent();
             int style = NativeWinAPI.GetWindowLong(this.Handle, NativeWinAPI.GWL_EXSTYLE);
@@ -48,9 +51,9 @@ namespace UniversalGameLauncher {
             InitializeFiles();
             InitializeImages();
             FetchPatchNotes();
-            InitializeVersionControl();
+            //InitializeVersionControl();
 
-            IsReady = UpToDate;
+            IsReady = false;
 
             _downloadProgressTracker = new DownloadProgressTracker(50, TimeSpan.FromMilliseconds(500));           
         }
@@ -141,10 +144,31 @@ namespace UniversalGameLauncher {
                 return null;
             }
         }
-
+        
         private void OnClickPlay(object sender, EventArgs e) {
-            DownloadCSV();
-            CSV.LoadCSV();
+            if (playButton.Text != "Play")
+            { 
+                playButton.Enabled = false;
+                DownloadCSV();
+                CSV.LoadCSV();
+                LocalHash();
+                DownloadEachFile();
+                playButton.Enabled = true;
+                IsReady = true;
+                TogglePlayButton(true);
+            }
+            else LaunchGame();
+        }
+        private void LocalHash()
+        {
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    updateLabelText.Text = "Checking Client Versions";
+                });
+            }
+            else updateLabelText.Text = "Checking Client Versions";
             DirectoryInfo d = new DirectoryInfo(Constants.DESTINATION_PATH);
 
             FileInfo[] Files = d.GetFiles();
@@ -152,22 +176,60 @@ namespace UniversalGameLauncher {
             {
                 CSV.HashFiles hash;
 
-                hash.filename = $"{file.Name}{file.Extension}";
+                hash.filename = $"{file.Name}";
                 hash.sha256 = Hashing.GetSHA256(file.FullName);
                 localHashFiles.Add(hash);
+                if (InvokeRequired)
+                {
+                    Invoke((MethodInvoker)delegate
+                    {
+                        updateLabelText.Text = $"Checking Client Versions: {hash.filename}";
+                    });
+                }
+                else updateLabelText.Text = $"Checking Client Versions: {hash.filename}";
+                DoEvents();
             }
+        }
+        public void DoEvents()
+        {
+            DispatcherFrame frame = new DispatcherFrame();
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.Background,
+                new DispatcherOperationCallback(ExitFrame), frame);
+            Dispatcher.PushFrame(frame);
+        }
+
+        public object ExitFrame(object f)
+        {
+            ((DispatcherFrame)f).Continue = false;
+
+            return null;
+        }
+        private void DownloadEachFile()
+        {
             for (int i = 0; i < CSV.hashFiles.Count; i++)
             {
                 CSV.HashFiles hash = CSV.hashFiles[i];
                 if (!localHashFiles.Contains(hash))
                 {
-                    DownloadFile($"https://uovnv.com/serverfiles/{hash.filename}", Path.Combine(Constants.DESTINATION_PATH, hash.filename));
+                    downloaded = false;
+                    _filename = hash.filename;
+                    DownloadFile($"https://uovnv.com/serverfiles/UO%20VnV/{hash.filename}", Path.Combine(Constants.DESTINATION_PATH, hash.filename));
+                    while (!downloaded)
+                    {
+                        DoEvents();
+                    }
                 }
-                    
-            }
-                LaunchGame();
-        }
 
+            }
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    updateLabelText.Text = "Download finished - Launching Client";
+                });
+            }
+            else updateLabelText.Text = "Download finished - Launching Client";
+        }
         private void DownloadFile(string filename, string filelocation) {
             using (_webClient = new WebClient()) { 
                 _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
@@ -178,26 +240,62 @@ namespace UniversalGameLauncher {
         }
         private void DownloadCSV()
         {
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    updateLabelText.Text = "Retrieving Manifest Files";
+                });
+            }
+            else updateLabelText.Text = "Retrieving Manifest Files";
             using (_webClient = new WebClient())
             {
-                _webClient.DownloadFileAsync(new Uri(Constants.DOWNLOAD_CSV_PATH),Constants.GAME_CSV_PATH);
+                //_webClient.DownloadFileAsync(new Uri(Constants.DOWNLOAD_CSV_PATH),Constants.GAME_CSV_PATH);
+                _webClient.DownloadFile(new Uri(Constants.DOWNLOAD_CSV_PATH), Constants.GAME_CSV_PATH);
             }
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
             _downloadProgressTracker.SetProgress(e.BytesReceived, e.TotalBytesToReceive);
-            updateProgressBar.Value = e.ProgressPercentage;
-            updateLabelText.Text = string.Format("Downloading: {0} of {1} @ {2}", StringUtility.FormatBytes(e.BytesReceived),
-                StringUtility.FormatBytes(e.TotalBytesToReceive), _downloadProgressTracker.GetBytesPerSecondString());
 
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    updateProgressBar.Value = e.ProgressPercentage;
+                    try
+                    {
+                        updateLabelText.Text = string.Format("Downloading {3}: {0} of {1} @ {2}", StringUtility.FormatBytes(e.BytesReceived),
+                    StringUtility.FormatBytes(e.TotalBytesToReceive), _downloadProgressTracker.GetBytesPerSecondString(),_filename);
+                    }
+                    catch { }
+                });
+            }
+            else
+            {
+                updateProgressBar.Value = e.ProgressPercentage;
+                try
+                {
+                    updateLabelText.Text = string.Format("Downloading {3}: {0} of {1} @ {2}", StringUtility.FormatBytes(e.BytesReceived),
+                    StringUtility.FormatBytes(e.TotalBytesToReceive), _downloadProgressTracker.GetBytesPerSecondString(),_filename);
+                }
+                catch { }
+            }
         }
 
         private void OnDownloadCompleted(object sender, AsyncCompletedEventArgs e) {
             _downloadProgressTracker.Reset();
-            updateLabelText.Text = "Download finished - extracting...";
-
-            Extract extract = new Extract(this);
-            extract.Run();
+            downloaded = true;
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    updateLabelText.Text = $"{_filename} Download finished";
+                });
+            }
+            else updateLabelText.Text = $"{_filename} Download finished";
+            //Extract extract = new Extract(this);
+            //extract.Run();
         }
 
         public void SetLauncherReady() {
@@ -348,5 +446,6 @@ namespace UniversalGameLauncher {
         private void closePictureBox_Click(object sender, EventArgs e) {
             Environment.Exit(0);
         }
+        
     }
 }

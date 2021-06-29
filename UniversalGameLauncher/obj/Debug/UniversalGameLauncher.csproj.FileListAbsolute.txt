@@ -8,9 +8,6 @@ c:\users\teemu\onedrive\tiedostot\visual studio 2017\Projects\UniversalGameLaunc
 c:\users\teemu\onedrive\tiedostot\visual studio 2017\Projects\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.exe
 c:\users\teemu\onedrive\tiedostot\visual studio 2017\Projects\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.pdb
 C:\Users\teemu\OneDrive\Tiedostot\Visual Studio 2017\Projects\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csprojAssemblyReference.cache
-C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UniversalGameLauncher.exe.config
-C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UniversalGameLauncher.exe
-C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UniversalGameLauncher.pdb
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\ICSharpCode.SharpZipLib.pdb
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\ICSharpCode.SharpZipLib.xml
@@ -19,5 +16,9 @@ C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLaunc
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.GenerateResource.cache
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.CoreCompileInputs.cache
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.CopyComplete
-C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.exe
-C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.pdb
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UOVnVLauncher.exe.config
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UOVnVLauncher.exe
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UOVnVLauncher.pdb
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.AssemblyReference.cache
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UOVnVLauncher.exe
+C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UOVnVLauncher.pdb
