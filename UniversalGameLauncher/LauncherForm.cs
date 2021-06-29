@@ -80,7 +80,7 @@ namespace UniversalGameLauncher {
             closePictureBox.SizeMode = PictureBoxSizeMode.CenterImage; // Center the X icon
             minimizePictureBox.SizeMode = PictureBoxSizeMode.CenterImage; // Center the - icon
             try {
-                logoPictureBox.Load(Constants.LOGO_URL);
+                //logoPictureBox.Load(Constants.LOGO_URL);
                 using(WebClient webClient = new WebClient()) {
                     using (Stream stream = webClient.OpenRead(Constants.BACKGROUND_URL)) {
                         BackgroundImage = Image.FromStream(stream);
@@ -322,7 +322,7 @@ namespace UniversalGameLauncher {
         }
 
         private void FetchPatchNotes() {
-            try {
+            //try {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(Constants.PATCH_NOTES_URL);
 
@@ -343,11 +343,11 @@ namespace UniversalGameLauncher {
                     }
                     patchNoteBlocks.Add(block);
                 }
-            } catch {
-                patchContainerPanel.Visible = false;
-                if (Constants.SHOW_ERROR_BOX_IF_PATCH_NOTES_DOWNLOAD_FAILS)
-                    MessageBox.Show("The launcher was unable to retrieve patch notes from the server!");
-            }
+            //} //catch {
+                //patchContainerPanel.Visible = false;
+                //if (Constants.SHOW_ERROR_BOX_IF_PATCH_NOTES_DOWNLOAD_FAILS)
+                    //MessageBox.Show("The launcher was unable to retrieve patch notes from the server!");
+            //}
 
             Label[] patchTitleObjects = { patchTitle1, patchTitle2, patchTitle3 };
             Label[] patchTextObjects = { patchText1, patchText2, patchText3 };
@@ -418,13 +418,16 @@ namespace UniversalGameLauncher {
                     break;
 
                 case nameof(patchButton1):
-                    Process.Start(patchNoteBlocks[0].Link);
+                    if (patchNoteBlocks.Count > 0 && !(patchNoteBlocks[0].Link is null))
+                            Process.Start(patchNoteBlocks[0].Link);                    
                     break;
                 case nameof(patchButton2):
-                    Process.Start(patchNoteBlocks[1].Link);
+                    if (patchNoteBlocks.Count > 1 && !(patchNoteBlocks[1].Link is null))
+                        Process.Start(patchNoteBlocks[1].Link);                    
                     break;
                 case nameof(patchButton3):
-                    Process.Start(patchNoteBlocks[2].Link);
+                    if (patchNoteBlocks.Count > 2 && !(patchNoteBlocks[2].Link is null))
+                            Process.Start(patchNoteBlocks[2].Link);                    
                     break;
             }
         }
