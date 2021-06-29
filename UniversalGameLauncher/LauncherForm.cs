@@ -52,11 +52,7 @@ namespace UniversalGameLauncher {
 
             IsReady = UpToDate;
 
-            _downloadProgressTracker = new DownloadProgressTracker(50, TimeSpan.FromMilliseconds(500));
-
-            if (!UpToDate && Constants.AUTOMATICALLY_BEGIN_UPDATING) {
-                DownloadFile();
-            }
+            _downloadProgressTracker = new DownloadProgressTracker(50, TimeSpan.FromMilliseconds(500));           
         }
 
         private void InitializeConstantsSettings() {
@@ -169,19 +165,14 @@ namespace UniversalGameLauncher {
                 }
                     
             }
-            if (IsReady) {
                 LaunchGame();
-            } 
-            else {
-                DownloadFile();
-            }
         }
 
         private void DownloadFile(string filename, string filelocation) {
             using (_webClient = new WebClient()) { 
                 _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
                 _webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadCompleted);
-                _webClient.DownloadFileAsync(new Uri(Constants.CLIENT_DOWNLOAD_URL), Constants.ZIP_PATH);
+                _webClient.DownloadFileAsync(new Uri(filename), filelocation);
             }
             
         }
@@ -275,8 +266,7 @@ namespace UniversalGameLauncher {
                 Environment.Exit(0);
             } catch {
                 IsReady = false;
-                DownloadFile();
-                MessageBox.Show("Couldn't locate the game executable! Attempting to redownload - please wait.", "Fatal Error");
+                MessageBox.Show("Couldn't locate the game executable!", "Fatal Error");
             }
         }
 
