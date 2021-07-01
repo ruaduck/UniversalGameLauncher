@@ -8,19 +8,19 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\tidus\\.nuget\\packages\\": {}
+    "C:\\Users\\Internet User\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tidus\\source\\repos\\VandVHashUpdater\\VandVHashUpdater.csproj",
+      "projectUniqueName": "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj",
       "projectName": "VandVHashUpdater",
-      "projectPath": "C:\\Users\\tidus\\source\\repos\\VandVHashUpdater\\VandVHashUpdater.csproj",
-      "packagesPath": "C:\\Users\\tidus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tidus\\source\\repos\\VandVHashUpdater\\obj\\",
+      "projectPath": "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj",
+      "packagesPath": "C:\\Users\\Internet User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tidus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Internet User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +60,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

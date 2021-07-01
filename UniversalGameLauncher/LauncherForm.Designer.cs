@@ -51,6 +51,9 @@
             this.patchContainerPanel = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.playButton = new System.Windows.Forms.Button();
+            this.UOVnV_Location_tb = new System.Windows.Forms.TextBox();
+            this.UOVnV_Location_lbl = new System.Windows.Forms.Label();
+            this.UOVnV_Location_btn = new System.Windows.Forms.Button();
             this.navbarPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logoPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimizePictureBox)).BeginInit();
@@ -262,7 +265,7 @@
             this.patchText1.Location = new System.Drawing.Point(0, 42);
             this.patchText1.Name = "patchText1";
             this.patchText1.Size = new System.Drawing.Size(195, 216);
-            this.patchText1.TabIndex = 3;
+            this.patchText1.TabIndex = 0;
             // 
             // patchButton1
             // 
@@ -311,7 +314,7 @@
             this.patchText2.Location = new System.Drawing.Point(0, 42);
             this.patchText2.Name = "patchText2";
             this.patchText2.Size = new System.Drawing.Size(195, 216);
-            this.patchText2.TabIndex = 3;
+            this.patchText2.TabIndex = 0;
             // 
             // patchButton2
             // 
@@ -360,7 +363,7 @@
             this.patchText3.Location = new System.Drawing.Point(0, 42);
             this.patchText3.Name = "patchText3";
             this.patchText3.Size = new System.Drawing.Size(195, 216);
-            this.patchText3.TabIndex = 3;
+            this.patchText3.TabIndex = 0;
             // 
             // patchButton3
             // 
@@ -422,11 +425,41 @@
             this.playButton.Location = new System.Drawing.Point(825, 571);
             this.playButton.Name = "playButton";
             this.playButton.Size = new System.Drawing.Size(191, 60);
-            this.playButton.TabIndex = 0;
+            this.playButton.TabIndex = 3;
             this.playButton.TabStop = false;
             this.playButton.Text = "Play";
             this.playButton.UseVisualStyleBackColor = false;
             this.playButton.Click += new System.EventHandler(this.OnClickPlay);
+            // 
+            // UOVnV_Location_tb
+            // 
+            this.UOVnV_Location_tb.Location = new System.Drawing.Point(258, 509);
+            this.UOVnV_Location_tb.Name = "UOVnV_Location_tb";
+            this.UOVnV_Location_tb.ReadOnly = true;
+            this.UOVnV_Location_tb.Size = new System.Drawing.Size(560, 22);
+            this.UOVnV_Location_tb.TabIndex = 1;
+            // 
+            // UOVnV_Location_lbl
+            // 
+            this.UOVnV_Location_lbl.AutoSize = true;
+            this.UOVnV_Location_lbl.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.UOVnV_Location_lbl.Location = new System.Drawing.Point(141, 511);
+            this.UOVnV_Location_lbl.Name = "UOVnV_Location_lbl";
+            this.UOVnV_Location_lbl.Size = new System.Drawing.Size(115, 19);
+            this.UOVnV_Location_lbl.TabIndex = 6;
+            this.UOVnV_Location_lbl.Text = "UO VnV Location";
+            // 
+            // UOVnV_Location_btn
+            // 
+            this.UOVnV_Location_btn.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.UOVnV_Location_btn.Location = new System.Drawing.Point(824, 510);
+            this.UOVnV_Location_btn.Name = "UOVnV_Location_btn";
+            this.UOVnV_Location_btn.Size = new System.Drawing.Size(36, 20);
+            this.UOVnV_Location_btn.TabIndex = 2;
+            this.UOVnV_Location_btn.Text = "***";
+            this.UOVnV_Location_btn.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.UOVnV_Location_btn.UseVisualStyleBackColor = true;
+            this.UOVnV_Location_btn.Click += new System.EventHandler(this.UOVnV_Location_btn_Click);
             // 
             // Application
             // 
@@ -436,6 +469,9 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1028, 643);
+            this.Controls.Add(this.UOVnV_Location_btn);
+            this.Controls.Add(this.UOVnV_Location_lbl);
+            this.Controls.Add(this.UOVnV_Location_tb);
             this.Controls.Add(this.patchContainerPanel);
             this.Controls.Add(this.clientReadyLabel);
             this.Controls.Add(this.navbarPanel);
@@ -496,6 +532,9 @@
         private System.Windows.Forms.Panel patchContainerPanel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox logoPictureBox;
+        private System.Windows.Forms.TextBox UOVnV_Location_tb;
+        private System.Windows.Forms.Label UOVnV_Location_lbl;
+        private System.Windows.Forms.Button UOVnV_Location_btn;
     }
 }
 

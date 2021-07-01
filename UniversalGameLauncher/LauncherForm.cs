@@ -5,12 +5,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
-using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Threading;
 using System.Xml;
-using System.Xml.Serialization;
-using ICSharpCode.SharpZipLib.Zip;
+
 
 namespace UniversalGameLauncher {
     public partial class Application : Form {
@@ -20,7 +18,6 @@ namespace UniversalGameLauncher {
         private WebClient _webClient;
         private List<CSV.HashFiles> localHashFiles = new List<CSV.HashFiles>();
         public Version LocalVersion { get { return new Version(Properties.Settings.Default.VersionText); } }
-        public Version OnlineVersion { get; private set; }
 
         private List<PatchNoteBlock> patchNoteBlocks = new List<PatchNoteBlock>();
 
@@ -36,9 +33,6 @@ namespace UniversalGameLauncher {
             }
         }
 
-        //public bool UpToDate { get { return LocalVersion >= OnlineVersion; } }
-        public void backgroundWorker1_DoWork()
-        { }
         public Application() {
             InitializeComponent();
             int style = NativeWinAPI.GetWindowLong(this.Handle, NativeWinAPI.GWL_EXSTYLE);
@@ -48,10 +42,9 @@ namespace UniversalGameLauncher {
 
         private void OnLoadApplication(object sender, EventArgs e) {
             InitializeConstantsSettings();
-            InitializeFiles();
+            //InitializeFiles();
             InitializeImages();
             FetchPatchNotes();
-            //InitializeVersionControl();
 
             IsReady = false;
 
@@ -61,18 +54,24 @@ namespace UniversalGameLauncher {
         private void InitializeConstantsSettings() {
             Name = Constants.GAME_TITLE;
             Text = Constants.LAUNCHER_NAME;
+            if (Properties.Settings.Default.DestinationPath == "" || Properties.Settings.Default.DestinationPath is null || !Directory.Exists(Properties.Settings.Default.DestinationPath))
+            {
+                Properties.Settings.Default.DestinationPath = Constants.DESTINATION_PATH;
+                Properties.Settings.Default.Save();
+            }
+            UOVnV_Location_tb.Text = Properties.Settings.Default.DestinationPath;
             SetUpButtonEvents();
 
             currentVersionLabel.Visible = Constants.SHOW_VERSION_TEXT;
 
         }
 
-        private void InitializeFiles() {
-            if (!Directory.Exists(Constants.DESTINATION_PATH)) {
-                Directory.CreateDirectory(Constants.DESTINATION_PATH);
-            } 
-        }
-
+        //private void InitializeFiles() {
+        //    if (!Directory.Exists(Constants.DESTINATION_PATH)) {
+        //        Directory.CreateDirectory(Constants.DESTINATION_PATH);
+        //    } 
+        //}
+        
         private void InitializeImages() {
             LoadApplicationIcon();
             navbarPanel.BackColor = Color.FromArgb(25, 100, 100, 100); // // Make panel background semi transparent
@@ -116,12 +115,7 @@ namespace UniversalGameLauncher {
 
         }
 
-        private void InitializeVersionControl() {
-            currentVersionLabel.Text = Properties.Settings.Default.VersionText;
-            OnlineVersion = GetOnlineVersion();
-
-            Console.WriteLine("We are on version " + LocalVersion + " and the online version is " + OnlineVersion);
-        }
+      
 
         private void InitializeFooter() {
             if (IsReady) {
@@ -132,23 +126,13 @@ namespace UniversalGameLauncher {
                 clientReadyLabel.Visible= false;
             }
         }
-
-        private Version GetOnlineVersion() {
-            try {
-                string onlineVersion = new WebClient().DownloadString(Constants.VERSION_URL);
-                Console.WriteLine(LocalVersion >= new Version(onlineVersion));
-                Version.TryParse(onlineVersion, out Version result);
-                return result;
-            } catch {
-                MessageBox.Show("The launcher was unable to read the current client version from the server!", "Fatal error");
-                return null;
-            }
-        }
+       
         
         private void OnClickPlay(object sender, EventArgs e) {
             if (playButton.Text != "Play")
             { 
                 playButton.Enabled = false;
+                UOVnV_Location_btn.Enabled = false;               
                 DownloadCSV();
                 CSV.LoadCSV();
                 LocalHash();
@@ -169,14 +153,14 @@ namespace UniversalGameLauncher {
                 });
             }
             else updateLabelText.Text = "Checking Client Versions";
-            DirectoryInfo d = new DirectoryInfo(Constants.DESTINATION_PATH);
+            DirectoryInfo d = new DirectoryInfo($@"{Properties.Settings.Default.DestinationPath}");
 
-            FileInfo[] Files = d.GetFiles();
+            FileInfo[] Files = d.GetFiles("*",SearchOption.AllDirectories);
             foreach (FileInfo file in Files)
             {
                 CSV.HashFiles hash;
 
-                hash.filename = $"{file.Name}";
+                hash.filename = $@"{file.FullName.Replace(Properties.Settings.Default.DestinationPath, "")}";
                 hash.sha256 = Hashing.GetSHA256(file.FullName);
                 localHashFiles.Add(hash);
                 if (InvokeRequired)
@@ -213,7 +197,10 @@ namespace UniversalGameLauncher {
                 {
                     downloaded = false;
                     _filename = hash.filename;
-                    DownloadFile($"https://uovnv.com/serverfiles/UO%20VnV/{hash.filename}", Path.Combine(Constants.DESTINATION_PATH, hash.filename));
+                    var path = new Uri($"https://uovnv.com/serverfiles{_filename}");
+                    var destination = $"{Properties.Settings.Default.DestinationPath}{hash.filename}";
+                    
+                    DownloadFile(path.ToString(), destination);
                     while (!downloaded)
                     {
                         DoEvents();
@@ -234,6 +221,10 @@ namespace UniversalGameLauncher {
             using (_webClient = new WebClient()) { 
                 _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
                 _webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadCompleted);
+                if (!Directory.Exists(Path.GetDirectoryName(filelocation)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(filelocation));
+                }
                 _webClient.DownloadFileAsync(new Uri(filename), filelocation);
             }
             
@@ -305,24 +296,14 @@ namespace UniversalGameLauncher {
                 return;
             }
 
-            currentVersionLabel.Text = OnlineVersion.ToString();
-            Properties.Settings.Default.VersionText = OnlineVersion.ToString();
-            Properties.Settings.Default.Save();
-            Console.WriteLine("Updated version. Now running on version: " + LocalVersion);
             IsReady = true;
 
             if (Constants.AUTOMATICALLY_LAUNCH_GAME_AFTER_UPDATING) 
-                LaunchGame();
-
-            try {
-                File.Delete(Constants.ZIP_PATH);
-            } catch {
-                MessageBox.Show("Couldn't delete the downloaded zip file after extraction.");
-            }
+                LaunchGame();           
         }
 
         private void FetchPatchNotes() {
-            //try {
+            try {
                 XmlDocument doc = new XmlDocument();
                 doc.Load(Constants.PATCH_NOTES_URL);
 
@@ -343,11 +324,11 @@ namespace UniversalGameLauncher {
                     }
                     patchNoteBlocks.Add(block);
                 }
-            //} //catch {
-                //patchContainerPanel.Visible = false;
-                //if (Constants.SHOW_ERROR_BOX_IF_PATCH_NOTES_DOWNLOAD_FAILS)
-                    //MessageBox.Show("The launcher was unable to retrieve patch notes from the server!");
-            //}
+            } catch {
+                patchContainerPanel.Visible = false;
+                if (Constants.SHOW_ERROR_BOX_IF_PATCH_NOTES_DOWNLOAD_FAILS)
+                    MessageBox.Show("The launcher was unable to retrieve patch notes from the server!");
+            }
 
             Label[] patchTitleObjects = { patchTitle1, patchTitle2, patchTitle3 };
             Label[] patchTextObjects = { patchText1, patchText2, patchText3 };
@@ -449,6 +430,17 @@ namespace UniversalGameLauncher {
         private void closePictureBox_Click(object sender, EventArgs e) {
             Environment.Exit(0);
         }
-        
+
+        private void UOVnV_Location_btn_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog folder = new FolderBrowserDialog();
+            DialogResult r = folder.ShowDialog();
+            if (r == DialogResult.OK)
+            {
+                UOVnV_Location_tb.Text = folder.SelectedPath;
+                Properties.Settings.Default.DestinationPath = UOVnV_Location_tb.Text;
+                Properties.Settings.Default.Save();
+            }
+        }
     }
 }

@@ -17,14 +17,25 @@ namespace UniversalGameLauncher {
         /// <summary>
         /// Paths & urls
         /// </summary>
-        public static readonly string DESTINATION_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), GAME_TITLE);
-        public static readonly string ZIP_PATH = Path.Combine(DESTINATION_PATH, GAME_TITLE + ".zip");
-        public static readonly string GAME_EXECUTABLE_PATH = Path.Combine(DESTINATION_PATH,"client.exe");
-        public static readonly string GAME_CSV_PATH = Path.Combine(DESTINATION_PATH,"UOVnV.csv");
+        public static string DESTINATION_PATH { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), GAME_TITLE); } }
+        public static string GAME_EXECUTABLE_PATH 
+        {
+            get
+            {
+                return Path.Combine(Properties.Settings.Default.DestinationPath, "UO VnV", "client.exe");
+            }
+        }
+        public static string GAME_CSV_PATH 
+        { 
+            get 
+            { 
+               return Path.Combine(Properties.Settings.Default.DestinationPath, "UOVnV.csv"); 
+            } 
+        }
         public static readonly string DOWNLOAD_CSV_PATH = "https://uovnv.com/serverfiles/UO%20VnV/UOVnV.csv";
 
         public static readonly string VERSION_URL = "https://uovnv.com/serverfiles/version.txt";
-        public static readonly string APPLICATION_ICON_URL = "https://uovnv.com/favicon.ico"; // Needs to be .ico
+        public static readonly string APPLICATION_ICON_URL = "https://uovnv.com/wp-content/uploads/2021/06/cropped-Head2-300x210.ico"; // Needs to be .ico
         public static readonly string LOGO_URL = "https://uovnv.com/wp-content/uploads/2021/06/cropped-Head2-300x210.png"; // Ideally around 283x75
         public static readonly string BACKGROUND_URL = "https://uovnv.com/wp-content/uploads/2021/06/cropped-Head2.png";
         public static readonly string PATCH_NOTES_URL = "https://uovnv.com/serverfiles/UO%20VnV/updates.xml";
