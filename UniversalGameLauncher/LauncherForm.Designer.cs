@@ -433,6 +433,7 @@
             // 
             // UOVnV_Location_tb
             // 
+            this.UOVnV_Location_tb.Enabled = false;
             this.UOVnV_Location_tb.Location = new System.Drawing.Point(258, 509);
             this.UOVnV_Location_tb.Name = "UOVnV_Location_tb";
             this.UOVnV_Location_tb.ReadOnly = true;
@@ -442,12 +443,13 @@
             // UOVnV_Location_lbl
             // 
             this.UOVnV_Location_lbl.AutoSize = true;
+            this.UOVnV_Location_lbl.Enabled = false;
             this.UOVnV_Location_lbl.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.UOVnV_Location_lbl.Location = new System.Drawing.Point(141, 511);
             this.UOVnV_Location_lbl.Name = "UOVnV_Location_lbl";
-            this.UOVnV_Location_lbl.Size = new System.Drawing.Size(115, 19);
+            this.UOVnV_Location_lbl.Size = new System.Drawing.Size(109, 19);
             this.UOVnV_Location_lbl.TabIndex = 6;
-            this.UOVnV_Location_lbl.Text = "UO VnV Location";
+            this.UOVnV_Location_lbl.Text = "Launch Location";
             // 
             // UOVnV_Location_btn
             // 
@@ -532,9 +534,9 @@
         private System.Windows.Forms.Panel patchContainerPanel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox logoPictureBox;
-        private System.Windows.Forms.TextBox UOVnV_Location_tb;
         private System.Windows.Forms.Label UOVnV_Location_lbl;
         private System.Windows.Forms.Button UOVnV_Location_btn;
+        public System.Windows.Forms.TextBox UOVnV_Location_tb;
     }
 }
 

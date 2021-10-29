@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj": {}
+    "C:\\Users\\tidus\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj": {
+    "C:\\Users\\tidus\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj",
+        "projectUniqueName": "C:\\Users\\tidus\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj",
         "projectName": "VandVHashUpdater",
-        "projectPath": "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj",
-        "packagesPath": "C:\\Users\\Internet User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Internet User\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\obj\\",
+        "projectPath": "C:\\Users\\tidus\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\VandVHashUpdater.csproj",
+        "packagesPath": "C:\\Users\\tidus\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tidus\\Documents\\GitHub\\UniversalGameLauncher\\VandVHashUpdater\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Internet User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tidus\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -54,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }

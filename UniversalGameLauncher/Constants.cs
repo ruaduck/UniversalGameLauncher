@@ -17,12 +17,12 @@ namespace UniversalGameLauncher {
         /// <summary>
         /// Paths & urls
         /// </summary>
-        public static string DESTINATION_PATH { get { return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), GAME_TITLE); } }
+        public static string DESTINATION_PATH { get { return Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).Replace(@"file:\",""); } }
         public static string GAME_EXECUTABLE_PATH 
         {
             get
             {
-                return Path.Combine(Properties.Settings.Default.DestinationPath, "UO VnV", "client.exe");
+                return Path.Combine(Properties.Settings.Default.ClientLocation);
             }
         }
         public static string GAME_CSV_PATH 
@@ -32,7 +32,7 @@ namespace UniversalGameLauncher {
                return Path.Combine(Properties.Settings.Default.DestinationPath, "UOVnV.csv"); 
             } 
         }
-        public static readonly string DOWNLOAD_CSV_PATH = "https://uovnv.com/serverfiles/UO%20VnV/UOVnV.csv";
+        public static readonly string DOWNLOAD_CSV_PATH = "https://uovnv.nyc3.digitaloceanspaces.com/UO%20VnV/UOVnV.csv";
 
         public static readonly string VERSION_URL = "https://uovnv.com/serverfiles/version.txt";
         public static readonly string APPLICATION_ICON_URL = "https://uovnv.com/wp-content/uploads/2021/06/cropped-Head2-300x210.ico"; // Needs to be .ico

@@ -8,3 +8,19 @@ C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLaunc
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.CoreCompileInputs.cache
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UOVnVLauncher.exe
 C:\Users\Internet User\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UOVnVLauncher.pdb
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.Application.resources
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.Properties.Resources.resources
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.GenerateResource.cache
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.CoreCompileInputs.cache
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\AWSSDK.Core.dll
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\AWSSDK.S3.dll
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\AWSSDK.Core.pdb
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\AWSSDK.Core.xml
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\AWSSDK.S3.pdb
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\AWSSDK.S3.xml
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UOVnV.exe.config
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UOVnV.exe
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Debug\UOVnV.pdb
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UOVnV.exe
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UOVnV.pdb
+C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Debug\UniversalGameLauncher.csproj.AssemblyReference.cache

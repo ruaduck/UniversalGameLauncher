@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Amazon.S3;
+using Amazon.S3.Transfer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -12,10 +14,13 @@ using System.Xml;
 
 namespace UniversalGameLauncher {
     public partial class Application : Form {
+        private readonly string accessKey = "MV7QQDE4TWHX6IADNY26";
+        private readonly string secretKey = "D1fIou03TMvpMqHyJQnZj9UbU+FkvMNYIf3AESnwxU8";
+        public string bucketName = "uovnv";
+        public AmazonS3Config s3ClientConfig = new AmazonS3Config{ServiceURL = "https://nyc3.digitaloceanspaces.com"};
         private string _filename;
         private bool downloaded = false;
         private DownloadProgressTracker _downloadProgressTracker;
-        private WebClient _webClient;
         private List<CSV.HashFiles> localHashFiles = new List<CSV.HashFiles>();
         public Version LocalVersion { get { return new Version(Properties.Settings.Default.VersionText); } }
 
@@ -42,7 +47,6 @@ namespace UniversalGameLauncher {
 
         private void OnLoadApplication(object sender, EventArgs e) {
             InitializeConstantsSettings();
-            //InitializeFiles();
             InitializeImages();
             FetchPatchNotes();
 
@@ -54,24 +58,16 @@ namespace UniversalGameLauncher {
         private void InitializeConstantsSettings() {
             Name = Constants.GAME_TITLE;
             Text = Constants.LAUNCHER_NAME;
-            if (Properties.Settings.Default.DestinationPath == "" || Properties.Settings.Default.DestinationPath is null || !Directory.Exists(Properties.Settings.Default.DestinationPath))
-            {
                 Properties.Settings.Default.DestinationPath = Constants.DESTINATION_PATH;
                 Properties.Settings.Default.Save();
-            }
-            UOVnV_Location_tb.Text = Properties.Settings.Default.DestinationPath;
+            UOVnV_Location_tb.Text = Properties.Settings.Default.ClientLocation;
             SetUpButtonEvents();
 
             currentVersionLabel.Visible = Constants.SHOW_VERSION_TEXT;
 
         }
 
-        //private void InitializeFiles() {
-        //    if (!Directory.Exists(Constants.DESTINATION_PATH)) {
-        //        Directory.CreateDirectory(Constants.DESTINATION_PATH);
-        //    } 
-        //}
-        
+       
         private void InitializeImages() {
             LoadApplicationIcon();
             navbarPanel.BackColor = Color.FromArgb(25, 100, 100, 100); // // Make panel background semi transparent
@@ -153,8 +149,11 @@ namespace UniversalGameLauncher {
                 });
             }
             else updateLabelText.Text = "Checking Client Versions";
-            DirectoryInfo d = new DirectoryInfo($@"{Properties.Settings.Default.DestinationPath}");
-
+            DirectoryInfo d = new DirectoryInfo($@"{Path.Combine(Properties.Settings.Default.DestinationPath, "UO VnV")}");
+            if (!Directory.Exists($@"{d.FullName}\"))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName($@"{d.FullName}\"));
+            }
             FileInfo[] Files = d.GetFiles("*",SearchOption.AllDirectories);
             foreach (FileInfo file in Files)
             {
@@ -196,15 +195,13 @@ namespace UniversalGameLauncher {
                 if (!localHashFiles.Contains(hash))
                 {
                     downloaded = false;
-                    _filename = hash.filename;
-                    var path = new Uri($"https://uovnv.com/serverfiles{_filename}");
+                    _filename = hash.filename.TrimStart(new char[] { '\\' });
+                    _filename = _filename.Replace(@"\",@"/");
+                    if (_filename.Contains("UOVnVHasher.exe")|| _filename.Contains("UOVnV.csv")) continue;
                     var destination = $"{Properties.Settings.Default.DestinationPath}{hash.filename}";
                     
-                    DownloadFile(path.ToString(), destination);
-                    while (!downloaded)
-                    {
-                        DoEvents();
-                    }
+                    DownloadFile(_filename, destination);
+                    while (!downloaded) { DoEvents(); }
                 }
 
             }
@@ -217,18 +214,52 @@ namespace UniversalGameLauncher {
             }
             else updateLabelText.Text = "Download finished - Launching Client";
         }
-        private void DownloadFile(string filename, string filelocation) {
-            using (_webClient = new WebClient()) { 
-                _webClient.DownloadProgressChanged += OnDownloadProgressChanged;
-                _webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(OnDownloadCompleted);
-                if (!Directory.Exists(Path.GetDirectoryName(filelocation)))
+        private void DownloadFile(string filename, string filelocation) 
+        {
+            var download = new TransferUtilityDownloadRequest {
+            BucketName = bucketName,
+            FilePath = filelocation,
+            Key = filename
+                };
+            download.WriteObjectProgressEvent += OnDownloadProgressChanged;
+            TransferUtility fileTransferUtility = new TransferUtility(new AmazonS3Client(accessKey, secretKey,s3ClientConfig));
+            if (!Directory.Exists(Path.GetDirectoryName(filelocation)))
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(filelocation));
+                       Directory.CreateDirectory(Path.GetDirectoryName(filelocation));
                 }
-                _webClient.DownloadFileAsync(new Uri(filename), filelocation);
-            }
-            
+            fileTransferUtility.DownloadAsync(download);
         }
+
+        private void OnDownloadProgressChanged(object sender, Amazon.S3.Model.WriteObjectProgressArgs e)
+        {
+            _downloadProgressTracker.SetProgress(e.TransferredBytes, e.TotalBytes);
+
+            if (InvokeRequired)
+            {
+                Invoke((MethodInvoker)delegate
+                {
+                    updateProgressBar.Value = e.PercentDone;
+                    try
+                    {
+                        updateLabelText.Text = string.Format("Downloading {3}: {0} of {1} @ {2}", StringUtility.FormatBytes(e.TransferredBytes),
+                    StringUtility.FormatBytes(e.TotalBytes), _downloadProgressTracker.GetBytesPerSecondString(), _filename);
+                    }
+                    catch { }
+                });
+            }
+            else
+            {
+                updateProgressBar.Value = e.PercentDone;
+                try
+                {
+                    updateLabelText.Text = string.Format("Downloading {3}: {0} of {1} @ {2}", StringUtility.FormatBytes(e.TransferredBytes),
+                StringUtility.FormatBytes(e.TotalBytes), _downloadProgressTracker.GetBytesPerSecondString(), _filename);
+                }
+                catch { }
+            }
+            if (e.IsCompleted) downloaded = true;
+        }
+
         private void DownloadCSV()
         {
             if (InvokeRequired)
@@ -239,11 +270,9 @@ namespace UniversalGameLauncher {
                 });
             }
             else updateLabelText.Text = "Retrieving Manifest Files";
-            using (_webClient = new WebClient())
-            {
-                //_webClient.DownloadFileAsync(new Uri(Constants.DOWNLOAD_CSV_PATH),Constants.GAME_CSV_PATH);
-                _webClient.DownloadFile(new Uri(Constants.DOWNLOAD_CSV_PATH), Constants.GAME_CSV_PATH);
-            }
+
+            TransferUtility fileTransferUtility = new TransferUtility(new AmazonS3Client(accessKey,secretKey,s3ClientConfig));
+            fileTransferUtility.Download(Constants.GAME_CSV_PATH, bucketName, "UO VnV/UOVnV.csv");
         }
 
         private void OnDownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e) {
@@ -339,14 +368,37 @@ namespace UniversalGameLauncher {
             }
         }
 
-        private void LaunchGame() {
-            try {
-                Process.Start(Constants.GAME_EXECUTABLE_PATH);
-                Environment.Exit(0);
-            } catch {
+        private void LaunchGame() 
+        {
+        Process ClientProc;
+            //try {
+            //    Process p = new Process();
+            //    p.StartInfo.FileName = Constants.GAME_EXECUTABLE_PATH;
+            //    p.StartInfo.Verb = "runas";
+            //    p.StartInfo.UseShellExecute = true;
+            //    p.Start();
+            //    Environment.Exit(0);
+            //} catch {
+            //    IsReady = false;
+            //    MessageBox.Show("Couldn't locate the game executable!", "Fatal Error");
+            //}
+
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Constants.GAME_EXECUTABLE_PATH));
+
+            try
+            {
+                ProcessStartInfo psi = new ProcessStartInfo(Constants.GAME_EXECUTABLE_PATH);
+                psi.WorkingDirectory = Path.GetDirectoryName(Constants.GAME_EXECUTABLE_PATH);
+
+                ClientProc = Process.Start(psi);
+                ClientProc.PriorityClass = (ProcessPriorityClass)Enum.Parse(typeof(ProcessPriorityClass), "Normal", true);
+            }
+            catch
+            {
                 IsReady = false;
                 MessageBox.Show("Couldn't locate the game executable!", "Fatal Error");
             }
+            
         }
 
         private void TogglePlayButton(bool toggle) {
@@ -433,14 +485,30 @@ namespace UniversalGameLauncher {
 
         private void UOVnV_Location_btn_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folder = new FolderBrowserDialog();
-            DialogResult r = folder.ShowDialog();
-            if (r == DialogResult.OK)
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
             {
-                UOVnV_Location_tb.Text = folder.SelectedPath;
-                Properties.Settings.Default.DestinationPath = UOVnV_Location_tb.Text;
+                InitialDirectory = @"C:\",
+                Title = "Browse exe Files",
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                DefaultExt = "exe",
+                Filter = "exe files (*.exe)|*.exe",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+
+                ReadOnlyChecked = true,
+                ShowReadOnly = true
+            };
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                UOVnV_Location_tb.Text = openFileDialog1.FileName;
+                Properties.Settings.Default.ClientLocation = openFileDialog1.FileName;
                 Properties.Settings.Default.Save();
             }
+            
         }
     }
 }
