@@ -35,9 +35,9 @@ namespace UniversalGameLauncher {
         public static readonly string DOWNLOAD_CSV_PATH = "https://uovnv.nyc3.digitaloceanspaces.com/UO%20VnV/UOVnV.csv";
 
         public static readonly string VERSION_URL = "https://uovnv.com/serverfiles/version.txt";
-        public static readonly string APPLICATION_ICON_URL = "https://uovnv.com/wp-content/uploads/2021/06/cropped-Head2-300x210.ico"; // Needs to be .ico
-        public static readonly string LOGO_URL = "https://uovnv.com/wp-content/uploads/2021/06/cropped-Head2-300x210.png"; // Ideally around 283x75
-        public static readonly string BACKGROUND_URL = "https://uovnv.com/wp-content/uploads/2021/06/cropped-Head2.png";
+        public static readonly string APPLICATION_ICON_URL = "https://uovnv.com/serverfiles/cropped-Head2-300x210.ico"; // Needs to be .ico
+        public static readonly string LOGO_URL = "https://uovnv.com/serverfiles/cropped-Head2-300x210.png"; // Ideally around 283x75
+        public static readonly string BACKGROUND_URL = "https://uovnv.com/serverfiles/cropped-Head2.png";
         public static readonly string PATCH_NOTES_URL = "https://uovnv.com/serverfiles/UO%20VnV/updates.xml";
         public static readonly string CLIENT_DOWNLOAD_URL = "https://uovnv.com/serverfiles/UO VnV.zip";
 

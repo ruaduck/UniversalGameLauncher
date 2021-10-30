@@ -21,6 +21,5 @@ C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\
 C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\AWSSDK.S3.pdb
 C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\bin\Release\AWSSDK.S3.xml
 C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.csproj.AssemblyReference.cache
-C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UniversalGameLauncher.csproj.CopyComplete
 C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UOVnV.exe
 C:\Users\tidus\Documents\GitHub\UniversalGameLauncher\UniversalGameLauncher\obj\Release\UOVnV.pdb
